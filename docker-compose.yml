@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  service-a:
+    restart: on-failure
+    build:
+      context: ./service-a
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  service-b:
+    restart: on-failure
+    build:
+      context: ./service-b
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./service-b/.env
+
+  opentelemetry-collector:
+    restart: on-failure
+    image: otel/opentelemetry-collector:latest
+    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+
+  zipkin:
+    restart: on-failure
+    image: openzipkin/zipkin:latest
+    ports:
+      - "9411:9411"

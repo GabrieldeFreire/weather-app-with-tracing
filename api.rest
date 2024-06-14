@@ -1,0 +1,9 @@
+#### Service A request
+POST http://localhost:8080/
+Content-Type: application/json
+
+{ "cep":"70680365" }
+
+
+###### Service B direct request 
+GET  http://localhost:8000/?cep=01153000
